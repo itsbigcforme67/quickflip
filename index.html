@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>QuickFlip</title>
+  <meta name="description" content="Draw flipbook animations and share them.">
+  <meta name="theme-color" content="#f4b13d">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="QuickFlip">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20l1-5L15.5 4.5a2.1 2.1 0 013 3L8 18l-4 2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-eraser" viewBox="0 0 24 24"><path d="M8 20h12M5 15l9-9a2 2 0 013 0l2 2a2 2 0 010 3l-8 8H8l-3-3a1 1 0 010-1z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-fill" viewBox="0 0 24 24"><path d="M5 11l7-7 7 7-7 7z M19 15s2 2.5 2 4a2 2 0 01-4 0c0-1.5 2-4 2-4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 7L4 12l5 5M4 12h11a5 5 0 010 10h-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-redo" viewBox="0 0 24 24"><path d="M15 7l5 5-5 5M20 12H9a5 5 0 000 10h3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z" fill="currentColor"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1" fill="currentColor"/></symbol>
+  <symbol id="i-prev" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></symbol>
+  <symbol id="i-dup" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V6a2 2 0 00-2-2H6a2 2 0 00-2 2v8a2 2 0 002 2h2" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-onion" viewBox="0 0 24 24"><rect x="3" y="3" width="13" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3 2"/><rect x="8" y="8" width="13" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M14 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="2" fill="currentColor"/><circle cx="12" cy="12" r="2" fill="currentColor"/><circle cx="19" cy="12" r="2" fill="currentColor"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 16.8 6.6 19.7l1.1-6.1L3.2 9.4l6.1-.8z" fill="currentColor"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><path d="M9 4h6v3H9zM7 5H5v15h14V5h-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-paste" viewBox="0 0 24 24"><path d="M9 4h6v3H9zM7 5H5v15h14V5h-2M9 13h6M12 10v6" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+</svg>
+
+<!-- library -->
+<section id="lib" class="screen">
+  <header class="bar">
+    <h1 class="logo"><span class="logo-q">Quick</span>Flip</h1>
+    <button class="icon" id="lib-settings" title="Settings"><svg><use href="#i-gear"/></svg></button>
+  </header>
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-tab="mine" class="on">My notes</button>
+    <button role="tab" data-tab="new-online">Online: new</button>
+    <button role="tab" data-tab="top-online">Online: top</button>
+  </nav>
+  <div id="lib-msg" class="msg" hidden></div>
+  <div id="grid" class="grid"></div>
+  <button id="lib-more" class="wide" hidden>More</button>
+</section>
+
+<!-- editor -->
+<section id="edit" class="screen" hidden>
+  <header class="bar">
+    <button class="icon" id="ed-back" title="Back to my notes"><svg><use href="#i-back"/></svg></button>
+    <div class="framepos"><b id="ed-pos">1</b> / <span id="ed-count">1</span></div>
+    <button class="icon" id="ed-play" title="Play"><svg><use href="#i-play"/></svg></button>
+    <button class="icon" id="ed-menu" title="Note menu"><svg><use href="#i-more"/></svg></button>
+  </header>
+  <div class="stage">
+    <canvas id="ed-canvas" width="256" height="192"></canvas>
+  </div>
+  <input type="range" id="ed-scrub" min="1" max="1" value="1" aria-label="Frame">
+  <div class="tools">
+    <div class="row">
+      <button class="tool on" data-tool="pen" title="Pen"><svg><use href="#i-pen"/></svg></button>
+      <button class="tool" data-tool="eraser" title="Eraser"><svg><use href="#i-eraser"/></svg></button>
+      <button class="tool" data-tool="fill" title="Fill"><svg><use href="#i-fill"/></svg></button>
+      <button class="tool" id="ed-size" title="Brush size"><span class="dot"></span></button>
+      <button class="tool" id="ed-pat" title="Pattern"><canvas width="16" height="16"></canvas></button>
+      <span class="gap"></span>
+      <button class="tool" id="ed-undo" title="Undo"><svg><use href="#i-undo"/></svg></button>
+      <button class="tool" id="ed-redo" title="Redo"><svg><use href="#i-redo"/></svg></button>
+    </div>
+    <div class="row">
+      <button class="layer on" data-layer="0" title="Front layer (tap again to change its colour)"><span class="sw"></span>A</button>
+      <button class="layer" data-layer="1" title="Back layer (tap again to change its colour)"><span class="sw"></span>B</button>
+      <button class="tool" id="ed-paper" title="Paper colour"><span class="paper"></span></button>
+      <button class="tool on" id="ed-onion" title="Show the previous frame faintly"><svg><use href="#i-onion"/></svg></button>
+      <span class="gap"></span>
+      <button class="tool" id="ed-copy" title="Copy this frame"><svg><use href="#i-copy"/></svg></button>
+      <button class="tool" id="ed-paste" title="Paste over this frame" disabled><svg><use href="#i-paste"/></svg></button>
+    </div>
+    <div class="row frames">
+      <button class="tool" id="ed-prev" title="Previous frame"><svg><use href="#i-prev"/></svg></button>
+      <button class="tool" id="ed-next" title="Next frame"><svg><use href="#i-next"/></svg></button>
+      <span class="gap"></span>
+      <button class="tool txt" id="ed-add" title="New blank frame after this one"><svg><use href="#i-plus"/></svg>New</button>
+      <button class="tool txt" id="ed-dup" title="Copy of this frame after this one"><svg><use href="#i-dup"/></svg>Copy</button>
+      <button class="tool" id="ed-del" title="Delete this frame"><svg><use href="#i-trash"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<!-- player -->
+<section id="play" class="screen" hidden>
+  <header class="bar">
+    <button class="icon" id="pl-back" title="Back"><svg><use href="#i-back"/></svg></button>
+    <div class="who"><b id="pl-author"></b><span id="pl-info"></span></div>
+    <button class="icon" id="pl-menu" title="Menu"><svg><use href="#i-more"/></svg></button>
+  </header>
+  <div class="stage">
+    <canvas id="pl-canvas" width="256" height="192"></canvas>
+  </div>
+  <input type="range" id="pl-scrub" min="1" max="1" value="1" aria-label="Frame">
+  <div class="tools">
+    <div class="row center">
+      <button class="tool big" id="pl-play" title="Play / pause"><svg><use href="#i-stop"/></svg></button>
+      <button class="tool txt" id="pl-star" title="Give a star" hidden><svg><use href="#i-star"/></svg><span id="pl-stars">0</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- dialogs -->
+<dialog id="dlg-settings">
+  <form method="dialog">
+    <h2>Settings</h2>
+    <label>Your name on notes <input id="set-author" maxlength="32" autocomplete="nickname"></label>
+    <label>Server address <input id="set-server" placeholder="http://192.168.1.20:8780" inputmode="url" autocomplete="off"></label>
+    <label>Upload key <input id="set-key" autocomplete="off" spellcheck="false"></label>
+    <p class="hint">The server prints its address when it starts. Make a key on the PC with
+      <code>python3 server.py add-device NAME</code>.</p>
+    <p id="set-status" class="hint"></p>
+    <div class="buttons"><button value="cancel">Cancel</button><button value="ok" class="primary">Save</button></div>
+  </form>
+</dialog>
+
+<dialog id="dlg-menu">
+  <form method="dialog">
+    <h2 id="menu-title">Note</h2>
+    <div id="menu-body"></div>
+    <div class="buttons"><button value="cancel">Close</button></div>
+  </form>
+</dialog>
+
+<div id="toast" hidden></div>
+<script src="app.js"></script>
+</body>
+</html>
