@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QuickFlip note</title>
+  <link rel="icon" href="/app/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/site.css">
+</head>
+<body>
+<main class="view">
+  <header>
+    <a class="back" href="/">‹ Gallery</a>
+    <h1><span class="q">Quick</span>Flip</h1>
+  </header>
+  <div class="stage"><img id="anim" alt="The note playing"></div>
+  <div class="info">
+    <div><b id="author"></b><br><span id="details"></span></div>
+    <button id="star" class="btn">★ <span id="stars">0</span></button>
+  </div>
+  <div class="actions">
+    <a id="open" class="btn primary">Open in QuickFlip</a>
+    <a id="gif" class="btn" download>Save GIF</a>
+    <a id="file" class="btn" download>Download .qflip</a>
+  </div>
+</main>
+<script>
+const id = location.pathname.split('/').pop();
+const $ = (x) => document.getElementById(x);
+$('anim').src = `/api/notes/${id}.gif`;
+$('gif').href = `/api/notes/${id}.gif`;
+$('gif').download = `quickflip-${id}.gif`;
+$('file').href = `/api/notes/${id}.qflip`;
+$('file').download = `quickflip-${id}.qflip`;
+$('open').href = `/app/#n=${id}`;
+const fps = [0, 0.5, 1, 2, 4, 6, 12, 20, 30];
+fetch(`/api/notes/${id}`).then((r) => r.json()).then((n) => {
+  $('author').textContent = n.author || 'someone';
+  document.title = `QuickFlip note by ${n.author || 'someone'}`;
+  $('details').textContent = `${n.frames} frames at ${fps[n.speed]} fps · ${new Date(n.uploaded * 1000).toLocaleDateString()} · ${n.views} views`;
+  $('stars').textContent = n.stars;
+});
+$('star').onclick = async () => {
+  const r = await fetch(`/api/notes/${id}/star`, { method: 'POST' });
+  if (r.ok) { $('stars').textContent = (await r.json()).stars; $('star').classList.add('on'); }
+};
+</script>
+</body>
+</html>

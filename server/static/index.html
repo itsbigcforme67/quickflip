@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QuickFlip gallery</title>
+  <link rel="icon" href="/app/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/site.css">
+</head>
+<body>
+<main>
+  <header>
+    <h1><span class="q">Quick</span>Flip</h1>
+    <a class="btn primary" href="/app/">Draw a note</a>
+  </header>
+  <nav>
+    <button data-sort="new" class="on">Newest</button>
+    <button data-sort="top">Most stars</button>
+  </nav>
+  <p id="msg" hidden></p>
+  <div id="grid" class="grid"></div>
+  <button id="more" class="btn wide" hidden>More</button>
+</main>
+<script>
+let sort = 'new', offset = 0;
+const grid = document.getElementById('grid'), more = document.getElementById('more'), msg = document.getElementById('msg');
+async function load(reset) {
+  if (reset) { grid.textContent = ''; offset = 0; }
+  const r = await fetch(`/api/notes?sort=${sort}&offset=${offset}&limit=36`);
+  const { notes, total } = await r.json();
+  msg.hidden = !!(notes.length || offset);
+  msg.textContent = 'No notes yet. Draw one in the app and upload it from its menu.';
+  for (const n of notes) {
+    const a = document.createElement('a');
+    a.className = 'card';
+    a.href = '/n/' + n.id;
+    const img = document.createElement('img');
+    img.src = `/api/notes/${n.id}.png`;
+    img.loading = 'lazy';
+    img.alt = '';
+    const meta = document.createElement('div');
+    meta.className = 'meta';
+    const b = document.createElement('b');
+    b.textContent = n.author || 'someone';
+    const s = document.createElement('span');
+    s.textContent = '★ ' + n.stars + ' · ' + n.frames + 'f';
+    meta.append(b, s);
+    a.append(img, meta);
+    grid.append(a);
+  }
+  offset += notes.length;
+  more.hidden = offset >= total;
+}
+for (const b of document.querySelectorAll('nav button'))
+  b.onclick = () => {
+    sort = b.dataset.sort;
+    for (const o of document.querySelectorAll('nav button')) o.classList.toggle('on', o === b);
+    load(true);
+  };
+more.onclick = () => load(false);
+load(true);
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+# Your Wi-Fi name/password and upload key (copy esp32/config.example.json and edit that):
+config.json
+
+# The server's notes, upload keys and database
+server/data/
+
+# build output, editor files, local clutter
+.pio/
+.vscode/
+__pycache__/
+*.pyc
+.DS_Store

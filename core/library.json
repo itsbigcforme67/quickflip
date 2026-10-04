@@ -1,0 +1,6 @@
+{
+  "name": "qflip-core",
+  "version": "1.0.0",
+  "description": "QuickFlip core: frames, drawing tools and the .qflip file format",
+  "build": { "srcFilter": ["+<qflip.c>"], "includeDir": "." }
+}
